@@ -1,1 +1,1 @@
-# cemist_teach
+# Teach CeMiSt
