@@ -67,3 +67,15 @@ unique(nn$RNAME)
 one_2_one_count <- aggregate(formula = QNAME ~ RNAME, data = nn, FUN = length)
 one_2_one_mean <- aggregate(formula = percent_id ~ QNAME, data = nn, FUN = mean)
 one_2_many_count <- aggregate(formula = QNAME ~ RNAME + POS, data = nn, FUN = length)
+
+
+gg <- aggregate(x = list(nn$percent_id), by = list(nn$RNAME) , FUN = mean )
+
+
+
+filepath <- "https://bitbucket.org/tcve/cmgbiotech/raw/0e919654c83089c60656a5a4a25b940cfbf8e9f4/data/Aspfo1_GeneCatalog_transcripts_20120615.nt.fasta"
+myData <- read.table( file = '~/Dropbox/Drop-WORK/CeMiSt/Workshop/teach_cemist_github/comparative_genomics/Aspfo1_GeneCatalog_transcripts_20120615.nt.fasta.txt', header=TRUE, sep='\t')
+
+
+
+
