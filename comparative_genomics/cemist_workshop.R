@@ -54,3 +54,16 @@ ggplot(data = pp, aes(x = reorder(query, percent_id, FUN = median), y = percent_
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+
+nn <- read.table(file = '~/Desktop/sam_Y0B918VA015-Alignment.sam.txt', comment.char = '@')
+names(nn) <- c("QNAME", "FLAG", "RNAME", "POS", "MAPQ", "CIGAR", "RNEXT", 
+               "PNEXT", "TLEN", "SEQ", "QUAL", 
+               "int_aling_score", "evalue", "int_edit_dist", "percent_id", "bitscore"	)
+nn$percent_id <- gsub("PI:f:", "", nn$percent_id)
+nn$percent_id <- as.numeric( nn$percent_id)
+unique(nn$QNAME)
+unique(nn$RNAME)
+
+one_2_one_count <- aggregate(formula = QNAME ~ RNAME, data = nn, FUN = length)
+one_2_one_mean <- aggregate(formula = percent_id ~ QNAME, data = nn, FUN = mean)
+one_2_many_count <- aggregate(formula = QNAME ~ RNAME + POS, data = nn, FUN = length)
