@@ -1,0 +1,26 @@
+#download miniconda #10s
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+#change permissions so it can be installed
+chmod 755 Miniconda3-latest-Linux-x86_64.sh
+
+#run the downloaded script
+./Miniconda3-latest-Linux-x86_64.sh #30s
+
+#yes to everything
+#close window and open a new
+
+#update conda
+conda update conda #1min
+
+#check if it looks okay, should return a list of packages
+conda list
+
+#make a new conda environment called 'bioenf' (you can call it whatever you want)
+conda create --name bioinf
+
+#enter the environment
+source activate bioinf
+
+#install a package called vsearch
+conda install -c bioconda vsearch 
