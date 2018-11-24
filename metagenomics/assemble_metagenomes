@@ -5,12 +5,17 @@
 #clean all 4 sequences
 #hint: fastp can be installed with conda
 #      fastp can meaningfully deal with paired end reads
+#      https://github.com/OpenGene/fastp
 
 #what did fastp actually clean?
 
 #Assemble the two metagenomes one at a time
 #hint: spades can be installed with conda
-#      there are multiple ways to call spades, you are looking for metaspades
+#      there are multiple ways to call spades, you are looking for metaspades.py
 #      remember you have paired end reads
+#      http://cab.spbu.ru/files/release3.12.0/manual.html
 
 #sit back and wait
+
+#Optional: Evaluate assembly with QUAST
+#Quast takes a strange amount of spades, and probably wont help a lot in our dataset
