@@ -1,0 +1,16 @@
+#Download the 2 metagenomes (4 fastq files) with wget
+
+#how many lines are there in each?
+
+#clean all 4 sequences
+#hint: fastp can be installed with conda
+#      fastp can meaningfully deal with paired end reads
+
+#what did fastp actually clean?
+
+#Assemble the two metagenomes one at a time
+#hint: spades can be installed with conda
+#      there are multiple ways to call spades, you are looking for metaspades
+#      remember you have paired end reads
+
+#sit back and wait
