@@ -1,5 +1,6 @@
 Download centrifuge taxonomy
+Open a terminal window and run this command:
   wget ftp://ftp.ccb.jhu.edu/pub/infphilo/centrifuge/data/p_compressed+h+v.tar.gz
  
-Download the four sequence files with your browser
+Download the four sequence files with your browser:
   https://files.dtu.dk/u/lREgqlyRIKSHESCq/CeMist_workshop?l
