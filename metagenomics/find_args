@@ -1,25 +1,25 @@
-Download a database of antibiotic resistance genes
+#Download a database of antibiotic resistance genes
   wget https://card.mcmaster.ca/download/0/broadstreet-v3.0.0.tar.gz
-  *You may have to unzip it through the graphical interface, right click and extract here
+  *You may have to unzip it through the graphical interface, right click and 'extract here'
 
-Install diamond like you have done the other times
+#Install diamond like you have done the other times
 
-Make a database out of the file 'protein_fasta_protein_homolog_model.fasta'
+#Make a database out of the file 'protein_fasta_protein_homolog_model.fasta'
   diamond makedb --in protein_fasta_protein_homolog_model.fasta -d protein_homolog
-  *makes a database out of the file and names it protein_homolog
+#  *makes a database out of the file and names it protein_homolog
   
-Use diamond on the contigs you made (you need to fill in things in <> ) 
+#Use diamond on the contigs you made (you need to fill in things in <> ) 
   diamond blastx -d <database> -q <your_contigs>  > <your_output_file>
 
-Use head to inspect
-The output is divided into columns of the following (described here http://www.metagenomics.wiki/tools/blast/blastn-output-format-6):
-  qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore
+#Use head to inspect
+#The output is divided into columns of the following (described here http://www.metagenomics.wiki/tools/blast/blastn-output-format-6):
+#  qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore
 
-What identities are we getting? Should we accept all of them? How about lengths? Can diamond be tweaked to change this?
+#What identities are we getting? Should we accept all of them? How about lengths? Can diamond be tweaked to change this?
 
-Run the following script on the output file:
+#Run the following script on the output file:
   awk '{a[$2]++;} END{for(i in a) print a[i]"  "i}' your_output_file 
 
-What do you think it does?
+#What do you think this does?
 
 
