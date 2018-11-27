@@ -213,6 +213,8 @@ tt_matrix <- as.matrix( tt_wide[, 2:length(names(tt_wide))] )
 colnames(tt_matrix) <- names(tt_wide[, 2:length(names(tt_wide))])
 rownames(tt_matrix) <- tt_wide$qorg
 
-heatmap.2(tt_matrix, margins = c(10,10), trace = NULL, col = c('orange', 'red', 'blue'), na.color = 'black')
+heatmap.2(tt_matrix, margins = c(10,10), trace = NULL, na.color = 'black')
+heatmap.2(tt_matrix, margins = c(10,10), trace = NULL, na.color = 'black', col = c('orange', 'red', 'blue'))
+heatmap.2(tt_matrix, margins = c(10,10), trace = NULL, na.color = 'black', breaks = c(80,90,95,100))
 
           
