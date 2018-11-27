@@ -31,6 +31,10 @@ cat classified_reads | cut -f 1,3 > classified_reads.krona
 then the krona program on that file
 ktImportTaxonomy classified_reads.krona -o classified_reads_krona.html
 
+Did that work? What does the program suggest you do? (note that the suggested command needs a kt in front of it (just 
+like ktImportTaxonomy; the authors should really clean this program up). Remember that you changed the position of the database just 
+before, so ask the program how it would like to know where to put stuff with the -h option
+
 Now you can open the resulting html file in firefox!
 
   
