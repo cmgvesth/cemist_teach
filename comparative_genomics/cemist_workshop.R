@@ -55,7 +55,7 @@ ggplot(data = pp, aes(x = reorder(query, percent_id, FUN = median), y = percent_
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
-nn <- read.table(file = '~/Desktop/sam_Y0B918VA015-Alignment.sam.txt', comment.char = '@')
+nn <- read.table(file = 'sam_Y0B918VA015-Alignment.sam', comment.char = '@')
 names(nn) <- c("QNAME", "FLAG", "RNAME", "POS", "MAPQ", "CIGAR", "RNEXT", 
                "PNEXT", "TLEN", "SEQ", "QUAL", 
                "int_aling_score", "evalue", "int_edit_dist", "percent_id", "bitscore"	)
@@ -68,6 +68,8 @@ one_2_one_count <- aggregate(formula = QNAME ~ RNAME, data = nn, FUN = length)
 one_2_one_mean <- aggregate(formula = percent_id ~ QNAME, data = nn, FUN = mean)
 one_2_many_count <- aggregate(formula = QNAME ~ RNAME + POS, data = nn, FUN = length)
 
+tt <- aggregate(formula = RNAME + QNAME ~ , data = nn, FUN = length)
+
 
 gg <- aggregate(x = list(nn$percent_id), by = list(nn$RNAME) , FUN = mean )
 
@@ -76,6 +78,141 @@ gg <- aggregate(x = list(nn$percent_id), by = list(nn$RNAME) , FUN = mean )
 filepath <- "https://bitbucket.org/tcve/cmgbiotech/raw/0e919654c83089c60656a5a4a25b940cfbf8e9f4/data/Aspfo1_GeneCatalog_transcripts_20120615.nt.fasta"
 myData <- read.table( file = '~/Dropbox/Drop-WORK/CeMiSt/Workshop/teach_cemist_github/comparative_genomics/Aspfo1_GeneCatalog_transcripts_20120615.nt.fasta.txt', header=TRUE, sep='\t')
 
+source('~/Desktop/cmg_read_fasta.R')
+
+myData <- cmg_read_fasta(filename = filepath, type = 'nuc', orgname = 'test')
+
+boxplot(x = myData$length)
+
+orgA <- cmg_read_fasta(filename = 'Aspalli1_GeneCatalog_proteins_20161018.aa.fasta', type = 'aa', orgname = 'orgA')
+orgB <- cmg_read_fasta(filename = 'Aspamb1_GeneCatalog_proteins_20160910.aa.fasta', type = 'aa', orgname = 'orgB')
+orgC <- cmg_read_fasta(filename = 'Aspall1_GeneCatalog_proteins_20160910.aa.fasta', type = 'aa', orgname = 'orgC')
+orgD <- cmg_read_fasta(filename = 'Aspalbe1_GeneCatalog_proteins_20160720.aa.fasta', type = 'aa', orgname = 'orgD')
+allFSA <- rbind(orgA, orgB, orgC, orgD)
+
+library(ggplot2)
+
+ggplot(data = allFSA, aes(x = orgname, y = length, fill = 'blue')) + geom_boxplot()
+ggplot(data = allFSA, aes(x = orgname, y = length, fill = 'red')) + geom_boxplot()
+ggplot(data = allFSA, aes(x = orgname, y = length)) + geom_boxplot(fill = 'red')
+ggplot(data = allFSA, aes(x = orgname, y = length, fill = orgname)) + geom_boxplot()
+
+
+ggplot(data=allFSA, aes(x = length)) + geom_histogram()
+
+ggplot(data=allFSA, aes(x = length, fill = orgname)) + geom_histogram(position = "dodge")
+ggplot(data=allFSA, aes(x = length, fill = orgname)) + geom_histogram() + facet_grid( .~ orgname)
+p1 <- ggplot(data=allFSA, aes(x = length, fill = orgname)) + geom_histogram() + facet_grid(orgname ~.)
+
+ggsave(plot = p1, filename = 'proteinLength.pdf', device = 'pdf')
+
+ggplot(data=allFSA, aes(y = length, fill = orgname)) + geom_boxplot() + facet_grid( .~ orgname)
+ggplot(data=allFSA, aes(x = length, fill = orgname)) + geom_bar()+ facet_grid( orgname~. )
+
+ggplot(data=allFSA, aes(x = length, fill = orgname)) + geom_density()+ facet_grid( orgname~. )
+ggplot(data=allFSA, aes( x = '' , y = length, fill = orgname)) + geom_violin()+ facet_grid( .~orgname )
 
 
 
+library(gplots)
+
+organisms <- c('orgA', 'orgB', 'orgC', 'orgD')
+measure1 <- c(1,2,1,2)
+measure2 <- c(4,3,5,6)
+measure3 <- c(2,1,1,1)
+measure4 <- c(6,5,6,5)
+measureData <- data.frame(organisms, measure1, measure2, measure3, measure4)
+matrixData <- measureData[,2:ncol(measureData)]
+matrix <- data.matrix(matrixData)
+rownames(matrix) <- measureData$organisms
+
+heatmap(matrix)
+heatmap(matrix, margins = c(10,10))
+heatmap(matrix, margins = c(10,10), col=(cm.colors(5)), xlab='Measures',
+        ylab='Organisms', main = 'Example heatmap')
+
+
+heatmap.2(matrix)
+heatmap.2(matrix, margins = c(10,10))
+
+heatmap.2(matrix, margins = c(10,10), col=(cm.colors(5)), xlab='Measures',
+          ylab='Organisms', main = 'Example heatmap')
+
+heatmap.2(matrix, margins = c(10,10), col=c('red', 'blue', 'green', 'orange') ,
+          Colv = FALSE, dendrogram='row', xlab='Measures', ylab='Organisms',
+          main = 'Example heatmap', trace="none")
+
+pcount <- aggregate(allFSA$length, by = list(allFSA$orgname), FUN=summary)
+# Agg <- aggregate(df$Result, list(df$Location), summary)
+
+summary(allFSA$length)
+
+pdf(file = 'test.pdf')
+matrixData <- pcount[,2:ncol(pcount)]
+matrix <- data.matrix(matrixData)
+heatmap.2(matrix)
+dev.off()
+
+setwd("~/Dropbox/Drop-WORK/CeMiSt/Workshop/teach_cemist_github/comparative_genomics")
+
+fastafiles <- list.files(pattern = 'faa')
+fastaEntries <- data.frame(orgname = NA, sequenceid = NA) # cretae data.frame with blank observation
+
+for (file in fastafiles) {
+  lines <- read.csv(file = paste0( file), header = FALSE) # get all lines
+  headers <- as.data.frame( lines[  grepl(pattern = '>', lines$V1) ,  ]) # select lines that are headers
+  names(headers) <- "header"
+  
+  headers$orgname <- gsub(pattern = '>.+\\s\\[(.+)\\]', replacement = '\\1', x = headers$header) # problem with header format
+  headers$orgname <- unique( headers$orgname[ grepl(pattern = 'Aspergillus', x = headers$orgname)] ) # fix problem
+  #unique_names <- unique( headers[ !grepl(pattern = '>', x = headers$orgname), ]$orgname ) # fix problem
+  #headers$orgname <- unique_names[ grepl(pattern = 'Aspergillus', x = unique_names)] # fix problem
+  
+  headers$sequenceid <- gsub(pattern = '>(\\S+)\\s.+', replacement = '\\1', x = headers$header) 
+
+  fastaEntries <- rbind(fastaEntries, headers[, c('sequenceid','orgname' )] )
+}
+fastaEntries <- fastaEntries[!is.na(fastaEntries$orgname), ] # remove the blank observation
+unique(fastaEntries$orgname)
+fastaEntries_count <- aggregate(formula = sequenceid~orgname, data = fastaEntries, FUN = length )
+
+blastfiles <- list.files(pattern = 'csv')
+blastEntries <- data.frame(qorg = NA, qacc = NA, sorg = NA, sacc = NA, percent_id = NA, alignment_length = NA) # cretae data.frame with blank observation
+
+for (file in blastfiles) {
+  print(file)
+  blastfile <- read.csv(file = file, header = FALSE) 
+  names(blastfile) <- c("query_accver" , "subject_accver" , "percent_identity" , "alignment_length" , 
+                        "mismatches" , "gap_opens" , "q_start" , "q_end" , "s_start" , "s_end" , 
+                        "evalue" , "bit_score" , "percent_positives")
+  
+  blastfile$subjectOrg <- unique( fastaEntries[fastaEntries$sequenceid %in% blastfile$subject_accver,]$orgname )   
+  blastfile$queryOrg <- unique( fastaEntries[fastaEntries$sequenceid %in% blastfile$query_accver,]$orgname )   
+  blasthits <- blastfile[, c('queryOrg','query_accver', 'subjectOrg','subject_accver', 'percent_identity', 'alignment_length' ) ]
+  names(blasthits) <- c("qorg","qacc","sorg","sacc","percent_id","alignment_length")
+  
+  blastEntries <- rbind(blastEntries, blasthits)
+}
+
+blastEntries <- blastEntries[!is.na(blastEntries$qorg), ] # remove the blank observation
+unique(blastEntries$qorg)
+unique(blastEntries$sorg)
+
+unique(paste(blastEntries$sorg, blastEntries$qorg))
+
+tt_long <- aggregate(formula = sacc~qorg+sorg, data = blastEntries, FUN = length)
+tt_long <- aggregate(formula = qacc~qorg+sorg, data = blastEntries, FUN = length)
+tt_long <- aggregate(formula = qacc~qorg+sorg, data = blastEntries, FUN = function(x) length(unique(x)))
+tt_long <- merge(x = tt_long, y = fastaEntries_count, by.x = 'qorg', by.y = 'orgname') 
+tt_long$percent_qcc <- tt_long$qacc/tt_long$sequenceid*100
+
+library(reshape)
+tt_wide <- cast(tt_long, qorg ~ sorg, value = c('qacc') )
+tt_wide <- cast(tt_long, qorg ~ sorg, value = c('percent_qcc') )
+tt_matrix <- as.matrix( tt_wide[, 2:length(names(tt_wide))] )
+colnames(tt_matrix) <- names(tt_wide[, 2:length(names(tt_wide))])
+rownames(tt_matrix) <- tt_wide$qorg
+
+heatmap.2(tt_matrix, margins = c(10,10), trace = NULL, col = c('orange', 'red', 'blue'), na.color = 'black')
+
+          
