@@ -18,4 +18,4 @@
 #sit back and wait
 
 #Optional: Evaluate assembly with QUAST
-#Quast takes a strange amount of space to install, and probably wont help a lot in our dataset
+#Quast takes a strangely large amount of space to install, and probably wont help a lot in our dataset
