@@ -1,6 +1,14 @@
-Download centrifuge taxonomy
-Open a terminal window and run this command:
+#Download centrifuge taxonomy
+#Open a terminal window and run this command:
   wget ftp://ftp.ccb.jhu.edu/pub/infphilo/centrifuge/data/p_compressed+h+v.tar.gz
  
-Download the four sequence files with your browser:
+#Download the four sequence files with your browser:
   https://files.dtu.dk/u/lREgqlyRIKSHESCq/CeMist_workshop?l
+
+
+#if you have no graphic interface (e.g. running from windows 10) then run
+
+wget -O first_1.fastq "https://files.dtu.dk/fss/public/link/public/stream/read/first_1.fastq?linkToken=tceJ_HxHifOnx4n8&itemName=first_1.fastq"
+wget -O first_2.fastq "https://files.dtu.dk/fss/public/link/public/stream/read/first_2.fastq?linkToken=qTDIc2CwyGO7MMhz&itemName=first_2.fastq"
+wget -O second_1.fastq "https://files.dtu.dk/fss/public/link/public/stream/read/second_1.fastq?linkToken=vtDAfHdQwG2s0MB8&itemName=second_1.fastq"
+wget -O second_2.fastq "https://files.dtu.dk/fss/public/link/public/stream/read/second_2.fastq?linkToken=hJkFjE0ZBZ6WmQWM&itemName=second_2.fastq"
