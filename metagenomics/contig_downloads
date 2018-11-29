@@ -1,0 +1,4 @@
+wget -O contigs1.fasta "https://files.dtu.dk/fss/public/link/public/stream/read/contigs1.fasta?linkToken=iGkO7UHpDv6aaQ7t&itemName=contigs1.fasta"
+
+wget -O contigs2.fasta "https://files.dtu.dk/fss/public/link/public/stream/read/contigs2.fasta?linkToken=oiJ3QWuid1WwIndB&itemName=contigs2.fasta"
+
